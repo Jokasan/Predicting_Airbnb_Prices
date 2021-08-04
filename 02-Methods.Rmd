@@ -64,7 +64,7 @@ listings$beds[is.na(listings$beds)]= median(listings$beds, na.rm=T)
 The first few entries of the pre-processed dataset are shown below:
 
 ```{r echo=FALSE}
-head(data_anal) %>% kable()
+head(data_anal)
 ```
 
 Furthermore, the correlations between the predictor variables can be visualised. There seems to be a high correlation between the beds and accommodates (0.804) variables, suggesting a colinearity, however given that the scope of this study is predictive modeling, this shouldn't be an issue.
