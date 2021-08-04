@@ -1,1 +1,1 @@
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). Please see the page "Get Started" at https://bookdown.org/home/about/ for how to compile this example.
+This is an assignment completed for the GEOG5917 Big Data and Consumer Analytics module, part of the MSc Consumer Analytics and Marketing Strategy, Jan 2021 - Jan 2022 cohort. It achieved a 1st class (71). 

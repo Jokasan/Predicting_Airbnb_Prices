@@ -12,4 +12,3 @@ model-description-and-tuning
 random-forest-model-results
 discussion
 future-directions
-references

@@ -53,8 +53,6 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -122,6 +120,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -163,7 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.1" data-path="discussion.html"><a href="discussion.html#future-directions"><i class="fa fa-check"></i><b>5.1</b> Future directions</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>6</b> References</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -186,14 +206,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="discussion" class="section level1" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Discussion</h1>
-<p>Relative to the OLS model’s Rsquared which explains around 53% of the variation, the RF model did improve, explaining 55% of the variation. However, there seems to be room for improvement, particularly to try and get closer to the arbitrary golden standard Rsquared measure of 70%.
-One improvement to the model, would be to include more features from the raw dataset. The random forest algorithm is naturally adept at handling large datasets, and therefore the number of features included in the model should be increased. For example, proximity to city centre could be a variable that can be developed from the raw data, and perhaps more importantly, have a significant influence on the listing’s potential price. Expanding the number of features included in the model, the tuning grid would have to be revised, particularly increasing the upper threshold of the mtry to accommodate for the number of predictors. With that being said, simply increasing the number of features is not a guarantee for increased model performance, and should therefore be approached with careful consideration.</p>
-<p>Breiman (2001) points out that, random forests don’t tend to overfit due to the Law of Large Numbers, because of the injection of randomness, they are accurate regressors. However, as Lanz (2019) pointed out, it is difficult to inspect the method through which random forests achieve their results. In fact, Breiman (2001) demonstrates that random features and inputs produce good results when confronted with a classification problem, as opposed to a regression problem. Similarly, from a theoretical point of view, the analysis of the model remains difficult, particularly when it comes to the dependencies between the induced partitions of the input space and predictions within the partitions (Lorenzen et al., 2019). Lorenzen et al. (2019), suggest using PAC-Bayesian bounds, for the averaging and majority vote classifiers. This is mostly proposed, in order to overcome the deterioration of the C-bound, when there are strong individual classifiers and high correlation, which is the case with random forests; the bounds for the Gibbs classifier are more robust (Lorenzen et al., 2019). Lorenzen et al. (2019) demonstrate that PAC-Bayesian generalisation bounds can be implemented to achieve robust performance guarantees, for the random forest classifier. The Gibbs classifier, outperformed the majority vote bounds, which take the correlation between ensemble members into consideration; the reason for this, according to the authors, is due to the high accuracy of decision trees as classifiersm making estimation of correlations of error more difficult (Lorenzen et al., 2019).</p>
-<p>In contrast, Geurts et al. (2006) propose the extra-trees algorithm. What distinguishes the extra- trees algorithm from other tree-based ensemble methods, is that nodes are split by cut-points chosen fully at random and the tree growing process is done using the whole learning sample, as opposed to a boostrap replica, as does a random forest for instance (Geurts et al., 2006). In other words, the novelty of this approach is the combination of the attribute randomisation of Random subspace along with a completely random selection of the cut-point (Geurts et al., 2006).</p>
+<p>Relative to the OLS model’s Rsquared which explains around 53% of the variation, the RF model did improve, explaining 55% of the variation. However, there seems to be room for improvement, particularly to try and get closer to the arbitrary golden standard Rsquared measure of 70%.</p>
+<p>One improvement to the model, would be to include more features from the raw dataset. The random forest algorithm is naturally adept at handling large datasets, and therefore the number of features included in the model should be increased. For example, proximity to city centre could be a variable that can be developed from the raw data, and perhaps more importantly, have a significant influence on the listing’s potential price. Expanding the number of features included in the model, the tuning grid would have to be revised, particularly increasing the upper threshold of the mtry to accommodate for the number of predictors. With that being said, simply increasing the number of features is not a guarantee for increased model performance, and should therefore be approached with careful consideration.</p>
+<p>Breiman points out that, random forests don’t tend to overfit due to the Law of Large Numbers, because of the injection of randomness, they are accurate regressors <span class="citation">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span>. However, as Lantz pointed out, it is difficult to inspect the method through which random forests achieve their results <span class="citation">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span>. In fact, Breiman demonstrates that random features and inputs produce good results when confronted with a classification problem, as opposed to a regression problem. Similarly, from a theoretical point of view, the analysis of the model remains difficult, particularly when it comes to the dependencies between the induced partitions of the input space and predictions within the partitions <span class="citation">(<a href="#ref-Lorenzen2019" role="doc-biblioref">Lorenzen, Igel, and Y, n.d.</a>)</span>. They suggest using PAC-Bayesian bounds, for the averaging and majority vote classifiers. This is mostly proposed, in order to overcome the deterioration of the C-bound, when there are strong individual classifiers and high correlation, which is the case with random forests; the bounds for the Gibbs classifier are more robust <span class="citation">(<a href="#ref-Lorenzen2019" role="doc-biblioref">Lorenzen, Igel, and Y, n.d.</a>)</span>. The authors demonstrate that PAC-Bayesian generalisation bounds can be implemented to achieve robust performance guarantees, for the random forest classifier. The Gibbs classifier, outperformed the majority vote bounds, which take the correlation between ensemble members into consideration; the reason for this, according to the authors, is due to the high accuracy of decision trees as classifiers making estimation of correlations of error more difficult <span class="citation">(<a href="#ref-Lorenzen2019" role="doc-biblioref">Lorenzen, Igel, and Y, n.d.</a>)</span>.</p>
+<p>In contrast, <span class="citation">(<a href="#ref-Geurts2006" role="doc-biblioref">Geurts, Ernst, and Wehenkel 2006</a>)</span> propose the extra-trees algorithm. What distinguishes the extra- trees algorithm from other tree-based ensemble methods, is that nodes are split by cut-points chosen fully at random and the tree growing process is done using the whole learning sample, as opposed to a boostrap replica, as does a random forest for instance. In other words, the novelty of this approach is the combination of the attribute randomisation of Random subspace along with a completely random selection of the cut-point <span class="citation">(<a href="#ref-Geurts2006" role="doc-biblioref">Geurts, Ernst, and Wehenkel 2006</a>)</span>.</p>
 <div id="future-directions" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Future directions</h2>
 <p>In conclusion, the random forest algorithm significantly improved the predictive performance from the OLS model. The next steps involve expanding the scope of the model to include other features present in the raw data and adjusting the tuning grid accordingly. Furthermore, the application of PAC-Bayesian bounds can be implemented into the model as well as building a model using the extra-trees algorithm, can be pursued to achieve a higher Rsquared measure.</p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Breiman2001" class="csl-entry">
+———. 2001. <span>“<span>Random Forests</span>.”</span> <em>Machine Learning</em> 45: 5–32. <a href="https://doi.org/10.1023/A:1010933404324">https://doi.org/10.1023/A:1010933404324</a>.
+</div>
+<div id="ref-Geurts2006" class="csl-entry">
+Geurts, P, D Ernst, and L Wehenkel. 2006. <span>“<span class="nocase">Extremely random trees</span>.”</span> <em>Machine Learning</em> 16: 3–42. <a href="https://doi.org/10.1186/1471-2121-8-S1-S2">https://doi.org/10.1186/1471-2121-8-S1-S2</a>.
+</div>
+<div id="ref-Lorenzen2019" class="csl-entry">
+Lorenzen, S, C Igel, and Seldin Y. n.d. <em><span class="nocase">On PAC-Bayesian bounds for random forests</span>, Volume = <span>108</span>, Year = <span>2018</span>, Doi = <span class="nocase">10.1007/s10994-019-05803-4</span>, Url = <span class="nocase">https://doi.org/0885-6125</span>,</em>. <em>Machine Learning</em>.
 </div>
 </div>
             </section>

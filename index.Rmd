@@ -11,6 +11,7 @@ description: "This is a minimal example of using the bookdown package to write a
 ---
 
 
+
 # Executive Summary:
 
 The scope of this study is to develop a random forest algorithm to predict the price of the client’s potential Airbnb listings. Section 1 introduces the business problem and the methods used to address it. Section 2, outlines details of the dataset and any pre-processing necessary, as well as presents the random forest model. Section 3 examines the random forests’ tuning process and presents the model results in comparison to an OLS model. Finally, Section 4 is a discussion, concluding with directions for future work.

@@ -53,8 +53,6 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -122,6 +120,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -163,7 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.1" data-path="discussion.html"><a href="discussion.html#future-directions"><i class="fa fa-check"></i><b>5.1</b> Future directions</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>6</b> References</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -252,7 +272,40 @@ MAE
 </tr>
 </tbody>
 </table>
-<p>In contrast, the OLS model’s Rsquared was 0.53, suggesting that the model explains about 53% of the variation. The relative prices predicted by each model for the potential listings provided by the client are shown in the table below:</p>
+<p>In contrast, the OLS model’s Rsquared was 0.53, suggesting that the model explains about 53% of the variation. The model specifications are shown below:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="results.html#cb8-1" aria-hidden="true" tabindex="-1"></a>reg.mod <span class="ot">=</span></span>
+<span id="cb8-2"><a href="results.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.formula</span>(log_price <span class="sc">~</span> accommodates <span class="sc">+</span> beds <span class="sc">+</span> bathrooms <span class="sc">+</span></span>
+<span id="cb8-3"><a href="results.html#cb8-3" aria-hidden="true" tabindex="-1"></a>               cleaning_fee <span class="sc">+</span> property_type_House <span class="sc">+</span></span>
+<span id="cb8-4"><a href="results.html#cb8-4" aria-hidden="true" tabindex="-1"></a>               property_type_Other <span class="sc">+</span> room_type_Private_room <span class="sc">+</span></span>
+<span id="cb8-5"><a href="results.html#cb8-5" aria-hidden="true" tabindex="-1"></a>               room_type_Shared_room)</span>
+<span id="cb8-6"><a href="results.html#cb8-6" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">lm</span>(reg.mod, <span class="at">data =</span> data_anal)</span>
+<span id="cb8-7"><a href="results.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = reg.mod, data = data_anal)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.0207 -0.3083 -0.0609  0.2217  5.0743 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)             3.906290   0.025383 153.895  &lt; 2e-16 ***
+## accommodates            0.114073   0.005815  19.616  &lt; 2e-16 ***
+## beds                    0.009721   0.007659   1.269 0.204405    
+## bathrooms               0.069179   0.013832   5.001 5.89e-07 ***
+## cleaning_fee           -0.077549   0.016110  -4.814 1.53e-06 ***
+## property_type_House    -0.163889   0.018433  -8.891  &lt; 2e-16 ***
+## property_type_Other     0.069984   0.020292   3.449 0.000568 ***
+## room_type_Private_room -0.578816   0.019369 -29.883  &lt; 2e-16 ***
+## room_type_Shared_room  -0.748410   0.074809 -10.004  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5183 on 4837 degrees of freedom
+## Multiple R-squared:  0.533,  Adjusted R-squared:  0.5322 
+## F-statistic: 689.9 on 8 and 4837 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The relative prices predicted by each model for the potential listings provided by the client are shown in the table below:</p>
 <table>
 <thead>
 <tr>

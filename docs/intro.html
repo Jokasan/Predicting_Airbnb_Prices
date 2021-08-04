@@ -53,8 +53,6 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -122,6 +120,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -163,7 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.1" data-path="discussion.html"><a href="discussion.html#future-directions"><i class="fa fa-check"></i><b>5.1</b> Future directions</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>6</b> References</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -188,19 +208,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 2</span> Introduction</h1>
 <div id="business-problem-and-study-aim" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Business problem and study aim</h2>
-<p>The client has presented a list of properties from their portfolio to list on Airbnb. The main issue is that the client needs an indication of the price at which the properties should be listed. In order to address this problem, a Random Forest model will be constructed, from training data, including a number of factors relating to the rental property (for example: # of bedrooms, how many people it accommodates, etc.). After the random forest model is constructed, it will then be applied to the data of potential listings provided by the client, to suggest adequate rental prices. [Breiman1996]</p>
+<p>The client has presented a list of properties from their portfolio to list on Airbnb. The main issue is that the client needs an indication of the price at which the properties should be listed. In order to address this problem, a Random Forest model will be constructed, from training data, including a number of factors relating to the rental property (for example: # of bedrooms, how many people it accommodates, etc.). After the random forest model is constructed, it will then be applied to the data of potential listings provided by the client, to suggest adequate rental prices. <span class="citation">(<a href="#ref-Breiman1996" role="doc-biblioref">Breiman 1996</a>)</span></p>
 </div>
 <div id="study-aims-and-the-random-forest-method" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Study Aims and the Random Forest Method</h2>
 <div id="study-aims" class="section level3" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Study Aims</h3>
-<p>The aim of this study is to suggest adequate prices to the client for their potential listings, using a Random Forest machine learning model. This study engages with the algorithmic modeling culture, whereby the goal is to find an algorithm f(x), such that for future x in a test set, f(x) will be a good predictor of y (Breiman, 2001). More specifically, to find an algorithm that is the best predictor of rental prices for the client’s potential listings.</p>
+<p>The aim of this study is to suggest adequate prices to the client for their potential listings, using a Random Forest machine learning model. This study engages with the algorithmic modeling culture, whereby the goal is to find an algorithm f(x), such that for future x in a test set, f(x) will be a good predictor of y <span class="citation">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span>. More specifically, to find an algorithm that is the best predictor of rental prices for the client’s potential listings.</p>
 </div>
 <div id="random-forests-method" class="section level3" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Random Forests Method</h3>
-<p>Ensemble is a meta-learning approach, based on the premise that the combination of multiple weak learners, will yield a stonger learner (Lantz, 2019). Random forests are an ensemble-based method, focusing on ensembles of decision trees (Lantz, 2019). Breiman and Cutler were the main champions of this method. The Random Forests Method merges the base principles of bagging with random feature selection, adding additional diversity to decision tree models (Lantz, 2019). Once ensembles of trees are developed (the forest), a vote is used to combine tree predictions. Random forests build upon regression trees and the CART approach developed by Breiman (1984). Random forests were proposed to overcome tree correlation that arises because of Bagging regression trees (Breiman, 1996; Breiman, 2001). The main advantage of Random Forests is that they attempt to reduce tree correlation. By introducing randomness to the tree development process, large collections of decorrelated trees can be built, and thus are less prone to overfitting. Another key advantage of random forests is that they only select the most important features. In addition, due to the ensemble only utilising a random fraction of the full feature set, random forests are adept at handling large datasets, overcoming the “curse of dimensionality” (Lantz, 2019). On the other hand, a noticeable weakness that has been pointed out is that they are more difficult to interpret, than say a decision tree (Lantz, 2019). Nevertheless, random forests are a versatile and powerful machine learning approach.</p>
+<p>Ensemble is a meta-learning approach, based on the premise that the combination of multiple weak learners, will yield a stronger learner <span class="citation">(<a href="#ref-Lantz2019" role="doc-biblioref">Lantz 2019</a>)</span>. Random forests are an ensemble-based method, focusing on ensembles of decision trees <span class="citation">(<a href="#ref-Lantz2019" role="doc-biblioref">Lantz 2019</a>)</span>. Breiman and Cutler were the main champions of this method. The Random Forests Method merges the base principles of bagging with random feature selection, adding additional diversity to decision tree models <span class="citation">(<a href="#ref-Lantz2019" role="doc-biblioref">Lantz 2019</a>)</span>. Once ensembles of trees are developed (the forest), a vote is used to combine tree predictions. Random forests build upon regression trees and the CART approach developed by <span class="citation">(<a href="#ref-Breiman1984" role="doc-biblioref">L 1984</a>)</span>. Random forests were proposed to overcome tree correlation that arises because of Bagging regression trees <span class="citation">(<a href="#ref-Breiman1996" role="doc-biblioref">Breiman 1996</a>, <a href="#ref-Breiman2001" role="doc-biblioref">2001</a>)</span>. The main advantage of Random Forests is that they attempt to reduce tree correlation. By introducing randomness to the tree development process, large collections of decorrelated trees can be built, and thus are less prone to overfitting. Another key advantage of random forests is that they only select the most important features. In addition, due to the ensemble only utilising a random fraction of the full feature set, random forests are adept at handling large datasets, overcoming the “curse of dimensionality” <span class="citation">(<a href="#ref-Lantz2019" role="doc-biblioref">Lantz 2019</a>)</span>. On the other hand, a noticeable weakness that has been pointed out is that they are more difficult to interpret, than say a decision tree <span class="citation">(<a href="#ref-Lantz2019" role="doc-biblioref">Lantz 2019</a>)</span>. Nevertheless, random forests are a versatile and powerful machine learning approach.</p>
 
 </div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Breiman1996" class="csl-entry">
+Breiman, L. 1996. <span>“<span>Bagging Predictors</span>.”</span> <em>Machine Learning</em> 24: 123–40. <a href="https://doi.org/10.1007/BF00058655">https://doi.org/10.1007/BF00058655</a>.
+</div>
+<div id="ref-Breiman2001" class="csl-entry">
+———. 2001. <span>“<span>Random Forests</span>.”</span> <em>Machine Learning</em> 45: 5–32. <a href="https://doi.org/10.1023/A:1010933404324">https://doi.org/10.1023/A:1010933404324</a>.
+</div>
+<div id="ref-Breiman1984" class="csl-entry">
+L, Breiman. 1984. <em><span class="nocase">Classification and Regression Trees</span></em>. London: Hall/CRC.
+</div>
+<div id="ref-Lantz2019" class="csl-entry">
+Lantz, B. 2019. <em><span class="nocase">Machine Learning with R Expert Techniques for Predictive Modeling</span></em>. Birmingham: Packt Publishing.
 </div>
 </div>
             </section>

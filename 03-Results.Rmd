@@ -63,7 +63,19 @@ RF_result<- tribble(
 kable(RF_result)
 ```
 
-In contrast, the OLS model’s Rsquared was 0.53, suggesting that the model explains about 53% of the variation. The relative prices predicted by each model for the potential listings provided by the client are shown in the table below:
+In contrast, the OLS model’s Rsquared was 0.53, suggesting that the model explains about 53% of the variation. The model specifications are shown below:
+
+```{r}
+reg.mod =
+  as.formula(log_price ~ accommodates + beds + bathrooms +
+               cleaning_fee + property_type_House +
+               property_type_Other + room_type_Private_room +
+               room_type_Shared_room)
+m = lm(reg.mod, data = data_anal)
+summary(m)
+```
+
+The relative prices predicted by each model for the potential listings provided by the client are shown in the table below:
 
 ```{r echo=FALSE}
 kable(final_prices)
