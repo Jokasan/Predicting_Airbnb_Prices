@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Methods | Predicting Airbnb listing prices using a Random Forest model</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Methods | Predicting Airbnb listing prices using a Random Forest model" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Methods | Predicting Airbnb listing prices using a Random Forest model" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Nils Indreiten" />
+
+
+<meta name="date" content="2021-08-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="results.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Predicitng Prices</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Executive Summary:</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#business-problem-and-study-aim"><i class="fa fa-check"></i><b>2.1</b> Business problem and study aim</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#study-aims-and-the-random-forest-method"><i class="fa fa-check"></i><b>2.2</b> Study Aims and the Random Forest Method</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#study-aims"><i class="fa fa-check"></i><b>2.2.1</b> Study Aims</a></li>
+<li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#random-forests-method"><i class="fa fa-check"></i><b>2.2.2</b> Random Forests Method</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>3</b> Methods</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="methods.html"><a href="methods.html#data-pre-processing"><i class="fa fa-check"></i><b>3.1</b> Data pre-processing</a></li>
+<li class="chapter" data-level="3.2" data-path="methods.html"><a href="methods.html#the-random-forest-model"><i class="fa fa-check"></i><b>3.2</b> The Random Forest Model</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="results.html"><a href="results.html#model-description-and-tuning"><i class="fa fa-check"></i><b>4.1</b> Model description and tuning</a></li>
+<li class="chapter" data-level="4.2" data-path="results.html"><a href="results.html#random-forest-model-results"><i class="fa fa-check"></i><b>4.2</b> Random Forest Model Results</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>5</b> Discussion</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="discussion.html"><a href="discussion.html#future-directions"><i class="fa fa-check"></i><b>5.1</b> Future directions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>6</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Predicting Airbnb listing prices using a Random Forest model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="methods" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Methods</h1>
+<p>The data used to train the model in this study, originated from <a href="http://insideairbnb.com">Inside Airbnb</a>, an open access platform, that makes lettings data publicly available. Lettings data from Manchester in November 2019, was used for this study. The original data was very noisy and had to be cleaned, transformed and pre-processed, prior to training.</p>
+<div id="data-pre-processing" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Data pre-processing</h2>
+<p>The training data is made up of 4,846 observations and has 9 features. A list of the variables and their type is shown below, log_price being the target variable and the others the predictor variables. Given the messiness of the listings data, certain data pre-processing operations had to be done, in some cases some new variables had to be created.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Type
+</th>
+<th style="text-align:left;">
+Description
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+log_price
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+The log transformation of the price from the raw data. Transformed due to a skewed distribution.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+accomodates
+</td>
+<td style="text-align:left;">
+integer
+</td>
+<td style="text-align:left;">
+No pre-processing was necessary for this variable. It is a measure of how many people the property accommodates.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+beds
+</td>
+<td style="text-align:left;">
+integer
+</td>
+<td style="text-align:left;">
+No pre-processing was necessary for this variable. It is a measure of how many people the property accommodates.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bathrooms
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+No pre-processing was necessary for this variable. It is a measure of how many people the property accommodates.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cleaning_fee
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+This variable was transformed to a binary value, 1 indicating the property has a cleaning fee and 0 no cleaning fee.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+property_type_House
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+This variable was transformed into a binary value, 1 indicating that the property is a house and 0 indicating it is not a House.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+property_type_Other
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+This variable was transformed into a binary value, 1 indicating that the property house is of type “other” and 0 indicating it is not <em>other</em>.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+room_type_Private_room
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+This variable was transformed into a binary variable, 1 indicating that the property’s room type is private and 0 indicating it is not private.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+room_type_Share_room
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+This variable was transformed into a binary variable, 1 indicating that the property’s room type is shared and 0 indicating it is not shared.
+</td>
+</tr>
+</tbody>
+</table>
+<p>The following data pre-processing was necessary to achieve the formatting of variables in the table above:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="methods.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The price variable:</span></span>
+<span id="cb1-2"><a href="methods.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert listing prices from dollars to numbers</span></span>
+<span id="cb1-3"><a href="methods.html#cb1-3" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>price <span class="ot">=</span> <span class="fu">dollar_to_number</span>(listings<span class="sc">$</span>price)</span>
+<span id="cb1-4"><a href="methods.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove listings with price values of zeros:</span></span>
+<span id="cb1-5"><a href="methods.html#cb1-5" aria-hidden="true" tabindex="-1"></a>listings<span class="ot">=</span>listings[listings<span class="sc">$</span>price<span class="sc">&gt;</span><span class="dv">0</span>,]</span>
+<span id="cb1-6"><a href="methods.html#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="methods.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## The property_type and room_type variables:</span></span>
+<span id="cb1-8"><a href="methods.html#cb1-8" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>property_type_House <span class="ot">=</span> (listings<span class="sc">$</span>property_type <span class="sc">==</span> <span class="st">&quot;House&quot;</span>)<span class="sc">+</span><span class="dv">0</span></span>
+<span id="cb1-9"><a href="methods.html#cb1-9" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>property_type_Other <span class="ot">=</span> (listings<span class="sc">$</span>property_type <span class="sc">==</span> <span class="st">&quot;Other&quot;</span>)<span class="sc">+</span><span class="dv">0</span></span>
+<span id="cb1-10"><a href="methods.html#cb1-10" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>room_type_Private_room <span class="ot">=</span> (listings<span class="sc">$</span>room_type <span class="sc">==</span> <span class="st">&quot;Private room&quot;</span>)<span class="sc">+</span><span class="dv">0</span></span>
+<span id="cb1-11"><a href="methods.html#cb1-11" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>room_type_Shared_room <span class="ot">=</span> (listings<span class="sc">$</span>room_type <span class="sc">==</span> <span class="st">&quot;Shared room&quot;</span>)<span class="sc">+</span><span class="dv">0</span></span>
+<span id="cb1-12"><a href="methods.html#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="methods.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Filling in the data which is missing or NA, using the median value:</span></span>
+<span id="cb1-14"><a href="methods.html#cb1-14" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>bathrooms[<span class="fu">is.na</span>(listings<span class="sc">$</span>bathrooms)]<span class="ot">=</span><span class="fu">median</span>(listings<span class="sc">$</span>bathrooms, <span class="at">na.rm=</span>T)</span>
+<span id="cb1-15"><a href="methods.html#cb1-15" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>beds[<span class="fu">is.na</span>(listings<span class="sc">$</span>beds)]<span class="ot">=</span> <span class="fu">median</span>(listings<span class="sc">$</span>beds, <span class="at">na.rm=</span>T)</span></code></pre></div>
+<p>The first few entries of the pre-processed dataset are shown below:</p>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+log_price
+</th>
+<th style="text-align:right;">
+accommodates
+</th>
+<th style="text-align:right;">
+beds
+</th>
+<th style="text-align:right;">
+bathrooms
+</th>
+<th style="text-align:right;">
+cleaning_fee
+</th>
+<th style="text-align:right;">
+property_type_House
+</th>
+<th style="text-align:right;">
+property_type_Other
+</th>
+<th style="text-align:right;">
+room_type_Private_room
+</th>
+<th style="text-align:right;">
+room_type_Shared_room
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+4.174387
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.094345
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3.526361
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.007333
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6.856462
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.094345
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>Furthermore, the correlations between the predictor variables can be visualised. There seems to be a high correlation between the beds and accommodates (0.804) variables, suggesting a colinearity, however given that the scope of this study is predictive modeling, this shouldn’t be an issue.</p>
+<p><img src="Predicting_Aibnb_Prices_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Once the data was pre-processed and ready to be utilised, training and test datasets were specified, using the createDataPartition function, to ensure that the distribution of both sets, resembles the distribution of the whole dataset.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="methods.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create training set partition using create data partition:</span></span>
+<span id="cb2-2"><a href="methods.html#cb2-2" aria-hidden="true" tabindex="-1"></a>training_index<span class="ot">=</span><span class="fu">createDataPartition</span>(data_anal<span class="sc">$</span>log_price, <span class="at">p=</span><span class="fl">0.7</span>, <span class="at">list=</span>F)</span>
+<span id="cb2-3"><a href="methods.html#cb2-3" aria-hidden="true" tabindex="-1"></a>train_x<span class="ot">=</span>data_anal[training_index,]</span>
+<span id="cb2-4"><a href="methods.html#cb2-4" aria-hidden="true" tabindex="-1"></a>test_x<span class="ot">=</span>data_anal[<span class="sc">-</span>training_index,]</span></code></pre></div>
+<p>Distribution of Categorical variables:</p>
+<p><img src="Predicting_Aibnb_Prices_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Distribution of continuous variables:</p>
+<p><img src="Predicting_Aibnb_Prices_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="the-random-forest-model" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> The Random Forest Model</h2>
+<p>The regression model has been defined, with log_price as the target variable and the remaining 8 variables as predictors. The model is displayed below:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="methods.html#cb3-1" aria-hidden="true" tabindex="-1"></a>reg.mod<span class="ot">=</span>log_price<span class="sc">~</span> accommodates <span class="sc">+</span> beds <span class="sc">+</span> bathrooms <span class="sc">+</span> cleaning_fee <span class="sc">+</span> property_type_House <span class="sc">+</span> property_type_Other <span class="sc">+</span> room_type_Private_room <span class="sc">+</span></span>
+<span id="cb3-2"><a href="methods.html#cb3-2" aria-hidden="true" tabindex="-1"></a>room_type_Shared_room</span></code></pre></div>
+<p>An initial model can be created, using the RF implementation from the randomForest package. The model is set to run with 5,000 trees, to see if we get a model with the lowest error within this number.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="methods.html#cb4-1" aria-hidden="true" tabindex="-1"></a>rf1 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>( <span class="at">formula=</span>reg.mod, </span>
+<span id="cb4-2"><a href="methods.html#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ntree=</span><span class="dv">5000</span>, </span>
+<span id="cb4-3"><a href="methods.html#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data=</span>train_x</span>
+<span id="cb4-4"><a href="methods.html#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="results.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Predicting_Aibnb_Prices.pdf", "Predicting_Aibnb_Prices.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

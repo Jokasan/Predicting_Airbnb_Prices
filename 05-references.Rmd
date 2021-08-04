@@ -1,0 +1,16 @@
+`r if (knitr::is_html_output()) '
+# References 
+
+Breiman, L. 1984. Classification and Regression Trees. Chapman; Hall/CRC.
+
+Breiman, L. 1996. Bagging Predictors. Machine Learning. 24(4), pp.123-40.
+
+Breiman, L. 2001. Random Forests. Machine Learning. 45(1), pp.5-32.
+
+Breiman, L. 2001. Statistical Modeling: The Two Cultures. Statistical Science.
+16(3), pp.199- 231.
+
+Geurts, P., Ernst, D. and Wehenkel, L. 2006. Extremely random trees. Machine Learning. 63, pp. 3-42.
+
+Lorenzen, S. S., Igel, C. and Seldin, Y. 2019. On PAC-Bayesian bounds for random forests. Machine Learning. 108, pp. 1503-1522.
+'`

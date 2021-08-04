@@ -1,0 +1,157 @@
+# Methods
+
+```{r setup, include=FALSE}
+pacman::p_load(tidyverse,knitr,ggplot2,reshape,scales,grid,gridExtra,GGally,caret, kableExtra)
+load("first_cat_vis.rda")
+load("second_cat_vis.rda")
+load("third_cat_vis.rda")
+load("fourth_cat_vis.rda")
+load("fifth_cat_vis.rda")
+load("data_anal.RData")
+load("initialrf.rda")
+load("tunedrf.rda")
+load("final_prices.rda")
+load("melted.rda")
+load("varimp.rda")
+cor.mat <- round(cor(data_anal[-1]),3)
+# pivot the correlation matrix to long format
+lengthened <- pivot_longer(as_tibble(cor.mat,rownames="row"), -row)
+```
+
+
+The data used to train the model in this study, originated from [Inside Airbnb](http://insideairbnb.com), an open access platform, that makes lettings data publicly available. Lettings data from Manchester in November 2019, was used for this study. The original data was very noisy and had to be cleaned, transformed and pre-processed, prior to training.
+
+## Data pre-processing
+
+The training data is made up of 4,846 observations and has 9 features. A list of the variables and their type is shown below, log_price being the target variable and the others the predictor variables. Given the messiness of the listings data, certain data pre-processing operations had to be done, in some cases some new variables had to be created.
+
+```{r, echo=FALSE}
+data_overview <- tribble(
+  ~Variable, ~Type, ~Description,
+  "log_price", "numeric", "The log transformation of the price from the raw data. Transformed due to a skewed distribution.",
+  "accomodates", "integer", "No pre-processing was necessary for this variable. It is a measure of how many people the property accommodates.",
+  "beds", "integer", "No pre-processing was necessary for this variable. It is a measure of how many people the property accommodates.",
+  "bathrooms", "numeric","No pre-processing was necessary for this variable. It is a measure of how many people the property accommodates.",
+  "cleaning_fee", "numeric", "This variable was transformed to a binary value, 1 indicating the property has a cleaning fee and 0 no cleaning fee.",
+  "property_type_House", "numeric", "This variable was transformed into a binary value, 1 indicating that the property is a house and 0 indicating it is not a House.",
+  "property_type_Other", "numeric","This variable was transformed into a binary value, 1 indicating that the property house is of type “other” and 0 indicating it is not _other_.",
+  "room_type_Private_room", "numeric","This variable was transformed into a binary variable, 1 indicating that the property’s room type is private and 0 indicating it is not private.",
+  "room_type_Share_room", "numeric","This variable was transformed into a binary variable, 1 indicating that the property’s room type is shared and 0 indicating it is not shared.",
+)
+kable(data_overview)
+```
+
+The following data pre-processing was necessary to achieve the formatting of variables in the table above:
+
+```{r eval=FALSE}
+## The price variable:
+# Convert listing prices from dollars to numbers
+listings$price = dollar_to_number(listings$price)
+# Remove listings with price values of zeros:
+listings=listings[listings$price>0,]
+
+## The property_type and room_type variables:
+listings$property_type_House = (listings$property_type == "House")+0
+listings$property_type_Other = (listings$property_type == "Other")+0
+listings$room_type_Private_room = (listings$room_type == "Private room")+0
+listings$room_type_Shared_room = (listings$room_type == "Shared room")+0
+
+## Filling in the data which is missing or NA, using the median value:
+listings$bathrooms[is.na(listings$bathrooms)]=median(listings$bathrooms, na.rm=T)
+listings$beds[is.na(listings$beds)]= median(listings$beds, na.rm=T)
+```
+
+The first few entries of the pre-processed dataset are shown below:
+
+```{r echo=FALSE}
+base <- head(data_anal)
+kable(base) %>% kable_styling("striped")
+```
+
+Furthermore, the correlations between the predictor variables can be visualised. There seems to be a high correlation between the beds and accommodates (0.804) variables, suggesting a colinearity, however given that the scope of this study is predictive modeling, this shouldn't be an issue.
+
+
+```{r echo=FALSE}
+# Construct the main ggplot with geom_tile
+cor.mat <- round(cor(data_anal[-1]),3)
+# pivot the correlation matrix to long format
+lengthened <- pivot_longer(as_tibble(cor.mat,rownames="row"), -row)
+ggplot(lengthened, aes(row, name, fill= value))+
+  geom_tile(color="white")+
+  scale_fill_gradient2(low="#CB181D", high="#2171B5",
+                       mid="white", midpoint=0,
+                       limit=c(-1,1), space="Lab",
+                       name="Correlation")+
+  theme_minimal()+
+  # make sure x and y have the same scaling
+  coord_fixed()+
+  # add the values to the tiles, using row and names as coordinates
+  geom_text(aes(row, name,label=value),
+            color= "black", size=2)+
+  # specify theme elements
+  theme_minimal()+
+  # adjust text direction on x-axis
+  theme(axis.text.x=element_text(angle=45, vjust=1, hjust=1))+
+  # remove the  axis labels by making them blank
+  xlab(" ")+ylab(" ")
+```
+
+
+Once the data was pre-processed and ready to be utilised, training and test datasets were specified, using the createDataPartition function, to ensure that the distribution of both sets, resembles the distribution of the whole dataset.
+
+```{r eval=FALSE}
+# create training set partition using create data partition:
+training_index=createDataPartition(data_anal$log_price, p=0.7, list=F)
+train_x=data_anal[training_index,]
+test_x=data_anal[-training_index,]
+```
+
+Distribution of Categorical variables:
+
+```{r echo=FALSE}
+p1 <- ggplot(test, aes(cleaning_fee))+
+     geom_bar()+xlab(" ")+ylab("")+theme_minimal()
+
+p2 <- ggplot(test2, aes(property_type_House))+
+  geom_bar()+ylab(" ")+xlab(" ")+theme_minimal()
+
+p3 <- ggplot(test3, aes(property_type_Other))+
+  geom_bar()+ xlab(" ")+theme_minimal()
+
+p4 <- ggplot(test4, aes(room_type_Private_room))+
+  geom_bar()+ xlab(" ")+theme_minimal()
+
+p5 <- ggplot(test5, aes(room_type_Shared_room))+ 
+  geom_bar()+ ylab(" ") +xlab(" ")+theme_minimal()
+grid.arrange(p1,p2,p3,p4,p5,nrow=3)
+```
+
+Distribution of continuous variables:
+
+```{r echo=FALSE}
+ggplot(melted, aes(x=value))+
+      geom_histogram(fill="firebrick3", bins = 20, col="white")+
+   facet_wrap(~ variable, ncol=, scales="free")+theme_minimal()
+```
+
+## The Random Forest Model
+The regression model has been defined, with log_price as the target variable and the remaining 8 variables as predictors. The model is displayed below:
+
+```{r eval=FALSE}
+reg.mod=log_price~ accommodates + beds + bathrooms + cleaning_fee + property_type_House + property_type_Other + room_type_Private_room +
+room_type_Shared_room
+```
+
+An initial model can be created, using the RF implementation from the randomForest package. The model is set to run with 5,000 trees, to see if we get a model with the lowest error within this number.
+
+```{r eval=FALSE}
+rf1 <- randomForest( formula=reg.mod, 
+                     ntree=5000, 
+                     data=train_x
+)
+```
+
+
+
+
+

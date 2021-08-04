@@ -1,0 +1,15 @@
+executive-summary
+intro
+business-problem-and-study-aim
+study-aims-and-the-random-forest-method
+study-aims
+random-forests-method
+methods
+data-pre-processing
+the-random-forest-model
+results
+model-description-and-tuning
+random-forest-model-results
+discussion
+future-directions
+references
