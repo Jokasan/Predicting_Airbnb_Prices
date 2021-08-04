@@ -343,222 +343,24 @@ This variable was transformed into a binary variable, 1 indicating that the prop
 <span id="cb1-14"><a href="methods.html#cb1-14" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>bathrooms[<span class="fu">is.na</span>(listings<span class="sc">$</span>bathrooms)]<span class="ot">=</span><span class="fu">median</span>(listings<span class="sc">$</span>bathrooms, <span class="at">na.rm=</span>T)</span>
 <span id="cb1-15"><a href="methods.html#cb1-15" aria-hidden="true" tabindex="-1"></a>listings<span class="sc">$</span>beds[<span class="fu">is.na</span>(listings<span class="sc">$</span>beds)]<span class="ot">=</span> <span class="fu">median</span>(listings<span class="sc">$</span>beds, <span class="at">na.rm=</span>T)</span></code></pre></div>
 <p>The first few entries of the pre-processed dataset are shown below:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:right;">
-log_price
-</th>
-<th style="text-align:right;">
-accommodates
-</th>
-<th style="text-align:right;">
-beds
-</th>
-<th style="text-align:right;">
-bathrooms
-</th>
-<th style="text-align:right;">
-cleaning_fee
-</th>
-<th style="text-align:right;">
-property_type_House
-</th>
-<th style="text-align:right;">
-property_type_Other
-</th>
-<th style="text-align:right;">
-room_type_Private_room
-</th>
-<th style="text-align:right;">
-room_type_Shared_room
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:right;">
-4.174387
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4.094345
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1.5
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-3.526361
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4.007333
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-6.856462
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4.094345
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-</tbody>
-</table>
+<pre><code>## # A tibble: 6 x 9
+##   log_price accommodates  beds bathrooms cleaning_fee property_type_House
+##       &lt;dbl&gt;        &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;               &lt;dbl&gt;
+## 1      4.17            4     6       1              1                   1
+## 2      4.09            2     1       1.5            0                   0
+## 3      3.53            3     2       1              1                   0
+## 4      4.01            2     2       1              0                   1
+## 5      6.86            2     1       1              0                   0
+## 6      4.09            2     1       1              0                   1
+## # … with 3 more variables: property_type_Other &lt;dbl&gt;,
+## #   room_type_Private_room &lt;dbl&gt;, room_type_Shared_room &lt;dbl&gt;</code></pre>
 <p>Furthermore, the correlations between the predictor variables can be visualised. There seems to be a high correlation between the beds and accommodates (0.804) variables, suggesting a colinearity, however given that the scope of this study is predictive modeling, this shouldn’t be an issue.</p>
 <p><img src="Predicting_Aibnb_Prices_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Once the data was pre-processed and ready to be utilised, training and test datasets were specified, using the createDataPartition function, to ensure that the distribution of both sets, resembles the distribution of the whole dataset.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="methods.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create training set partition using create data partition:</span></span>
-<span id="cb2-2"><a href="methods.html#cb2-2" aria-hidden="true" tabindex="-1"></a>training_index<span class="ot">=</span><span class="fu">createDataPartition</span>(data_anal<span class="sc">$</span>log_price, <span class="at">p=</span><span class="fl">0.7</span>, <span class="at">list=</span>F)</span>
-<span id="cb2-3"><a href="methods.html#cb2-3" aria-hidden="true" tabindex="-1"></a>train_x<span class="ot">=</span>data_anal[training_index,]</span>
-<span id="cb2-4"><a href="methods.html#cb2-4" aria-hidden="true" tabindex="-1"></a>test_x<span class="ot">=</span>data_anal[<span class="sc">-</span>training_index,]</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="methods.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create training set partition using create data partition:</span></span>
+<span id="cb3-2"><a href="methods.html#cb3-2" aria-hidden="true" tabindex="-1"></a>training_index<span class="ot">=</span><span class="fu">createDataPartition</span>(data_anal<span class="sc">$</span>log_price, <span class="at">p=</span><span class="fl">0.7</span>, <span class="at">list=</span>F)</span>
+<span id="cb3-3"><a href="methods.html#cb3-3" aria-hidden="true" tabindex="-1"></a>train_x<span class="ot">=</span>data_anal[training_index,]</span>
+<span id="cb3-4"><a href="methods.html#cb3-4" aria-hidden="true" tabindex="-1"></a>test_x<span class="ot">=</span>data_anal[<span class="sc">-</span>training_index,]</span></code></pre></div>
 <p>Distribution of Categorical variables:</p>
 <p><img src="Predicting_Aibnb_Prices_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Distribution of continuous variables:</p>
@@ -567,13 +369,13 @@ room_type_Shared_room
 <div id="the-random-forest-model" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> The Random Forest Model</h2>
 <p>The regression model has been defined, with log_price as the target variable and the remaining 8 variables as predictors. The model is displayed below:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="methods.html#cb3-1" aria-hidden="true" tabindex="-1"></a>reg.mod<span class="ot">=</span>log_price<span class="sc">~</span> accommodates <span class="sc">+</span> beds <span class="sc">+</span> bathrooms <span class="sc">+</span> cleaning_fee <span class="sc">+</span> property_type_House <span class="sc">+</span> property_type_Other <span class="sc">+</span> room_type_Private_room <span class="sc">+</span></span>
-<span id="cb3-2"><a href="methods.html#cb3-2" aria-hidden="true" tabindex="-1"></a>room_type_Shared_room</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="methods.html#cb4-1" aria-hidden="true" tabindex="-1"></a>reg.mod<span class="ot">=</span>log_price<span class="sc">~</span> accommodates <span class="sc">+</span> beds <span class="sc">+</span> bathrooms <span class="sc">+</span> cleaning_fee <span class="sc">+</span> property_type_House <span class="sc">+</span> property_type_Other <span class="sc">+</span> room_type_Private_room <span class="sc">+</span></span>
+<span id="cb4-2"><a href="methods.html#cb4-2" aria-hidden="true" tabindex="-1"></a>room_type_Shared_room</span></code></pre></div>
 <p>An initial model can be created, using the RF implementation from the randomForest package. The model is set to run with 5,000 trees, to see if we get a model with the lowest error within this number.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="methods.html#cb4-1" aria-hidden="true" tabindex="-1"></a>rf1 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>( <span class="at">formula=</span>reg.mod, </span>
-<span id="cb4-2"><a href="methods.html#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ntree=</span><span class="dv">5000</span>, </span>
-<span id="cb4-3"><a href="methods.html#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data=</span>train_x</span>
-<span id="cb4-4"><a href="methods.html#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="methods.html#cb5-1" aria-hidden="true" tabindex="-1"></a>rf1 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>( <span class="at">formula=</span>reg.mod, </span>
+<span id="cb5-2"><a href="methods.html#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ntree=</span><span class="dv">5000</span>, </span>
+<span id="cb5-3"><a href="methods.html#cb5-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data=</span>train_x</span>
+<span id="cb5-4"><a href="methods.html#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 
 </div>
 </div>

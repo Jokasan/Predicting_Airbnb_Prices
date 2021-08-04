@@ -209,35 +209,35 @@ div.csl-indent {
 <div id="model-description-and-tuning" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Model description and tuning</h2>
 <p>To evaluate different parameter values that are passed to the random forest, a tuning grid needs to be set up. The tuning grid serves the purpose of determining the best combination of parameters according to a range of predefined values for each of those parameters. The ranger implementation was used for this. The mtry parameter, refers to the number of variables that are randomly sampled at each split. In this case the mtry for the tuning grid was defined as mtry=c(2:9). The samp_size parameter specifies the number of samples to train on, spacifying a small number of samples may introduce bias and risk over-fitting. In this case the samp_size was defined as samp_size= c(.65, 0.7, 0.8, 0.9, 1). Finally the node_size parameter defines the complexity of the trees, it determines the minimum number of samples at terminal nodes. For the tuning grid node_size was set as node_size= seq(3,15,by=2). This is shown in the code below:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="results.html#cb5-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb5-2"><a href="results.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">mtry=</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>),</span>
-<span id="cb5-3"><a href="results.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">node_size =</span> <span class="fu">seq</span>(<span class="dv">3</span>, <span class="dv">15</span>, <span class="at">by =</span> <span class="dv">2</span>), <span class="at">samp_size =</span> <span class="fu">c</span>(.<span class="dv">65</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="results.html#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="results.html#cb6-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb6-2"><a href="results.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="at">mtry=</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>),</span>
+<span id="cb6-3"><a href="results.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="at">node_size =</span> <span class="fu">seq</span>(<span class="dv">3</span>, <span class="dv">15</span>, <span class="at">by =</span> <span class="dv">2</span>), <span class="at">samp_size =</span> <span class="fu">c</span>(.<span class="dv">65</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="dv">1</span>)</span>
+<span id="cb6-4"><a href="results.html#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Once the tuning grid has been defined, a loop that will pass each combination of parameters to the random forest algorithm, saving off the error measure:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="results.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(params)){</span>
-<span id="cb6-2"><a href="results.html#cb6-2" aria-hidden="true" tabindex="-1"></a>rf.i <span class="ot">&lt;-</span> <span class="fu">ranger</span>(</span>
-<span id="cb6-3"><a href="results.html#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="at">formula=</span> reg.mod, <span class="at">data=</span> train_x,</span>
-<span id="cb6-4"><a href="results.html#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="at">num.trees=</span> <span class="dv">5000</span>,</span>
-<span id="cb6-5"><a href="results.html#cb6-5" aria-hidden="true" tabindex="-1"></a> <span class="at">mtry=</span> params<span class="sc">$</span>mtry[i], <span class="at">min.node.size=</span> params<span class="sc">$</span>node_size[i],</span>
-<span id="cb6-6"><a href="results.html#cb6-6" aria-hidden="true" tabindex="-1"></a> <span class="at">sample.fraction=</span> params<span class="sc">$</span>samp_size[i],</span>
-<span id="cb6-7"><a href="results.html#cb6-7" aria-hidden="true" tabindex="-1"></a> <span class="at">seed=</span><span class="dv">123</span> </span>
-<span id="cb6-8"><a href="results.html#cb6-8" aria-hidden="true" tabindex="-1"></a> )</span>
-<span id="cb6-9"><a href="results.html#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># add OOB error to rf.grid</span></span>
-<span id="cb6-10"><a href="results.html#cb6-10" aria-hidden="true" tabindex="-1"></a>rf.grid <span class="ot">&lt;-</span> <span class="fu">c</span>(rf.grid, <span class="fu">sqrt</span>(rf.i<span class="sc">$</span>prediction.error)) </span>
-<span id="cb6-11"><a href="results.html#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># print to see progress</span></span>
-<span id="cb6-12"><a href="results.html#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (i<span class="sc">%%</span><span class="dv">10</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">cat</span>(i, <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb6-13"><a href="results.html#cb6-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="results.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(params)){</span>
+<span id="cb7-2"><a href="results.html#cb7-2" aria-hidden="true" tabindex="-1"></a>rf.i <span class="ot">&lt;-</span> <span class="fu">ranger</span>(</span>
+<span id="cb7-3"><a href="results.html#cb7-3" aria-hidden="true" tabindex="-1"></a> <span class="at">formula=</span> reg.mod, <span class="at">data=</span> train_x,</span>
+<span id="cb7-4"><a href="results.html#cb7-4" aria-hidden="true" tabindex="-1"></a> <span class="at">num.trees=</span> <span class="dv">5000</span>,</span>
+<span id="cb7-5"><a href="results.html#cb7-5" aria-hidden="true" tabindex="-1"></a> <span class="at">mtry=</span> params<span class="sc">$</span>mtry[i], <span class="at">min.node.size=</span> params<span class="sc">$</span>node_size[i],</span>
+<span id="cb7-6"><a href="results.html#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="at">sample.fraction=</span> params<span class="sc">$</span>samp_size[i],</span>
+<span id="cb7-7"><a href="results.html#cb7-7" aria-hidden="true" tabindex="-1"></a> <span class="at">seed=</span><span class="dv">123</span> </span>
+<span id="cb7-8"><a href="results.html#cb7-8" aria-hidden="true" tabindex="-1"></a> )</span>
+<span id="cb7-9"><a href="results.html#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># add OOB error to rf.grid</span></span>
+<span id="cb7-10"><a href="results.html#cb7-10" aria-hidden="true" tabindex="-1"></a>rf.grid <span class="ot">&lt;-</span> <span class="fu">c</span>(rf.grid, <span class="fu">sqrt</span>(rf.i<span class="sc">$</span>prediction.error)) </span>
+<span id="cb7-11"><a href="results.html#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># print to see progress</span></span>
+<span id="cb7-12"><a href="results.html#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (i<span class="sc">%%</span><span class="dv">10</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">cat</span>(i, <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb7-13"><a href="results.html#cb7-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The best performing combination of parameters can be extracted using the which.min function. The best performing combination of parameters is mtry=3, node_size=7, samp_size=0.8, and can be applied to the final model. This is shown in the code below:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="results.html#cb7-1" aria-hidden="true" tabindex="-1"></a>rfFit<span class="ot">=</span> <span class="fu">ranger</span>(</span>
-<span id="cb7-2"><a href="results.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">formula =</span> reg.mod, </span>
-<span id="cb7-3"><a href="results.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">data=</span>train_x, </span>
-<span id="cb7-4"><a href="results.html#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">num.trees =</span> <span class="dv">5000</span>, </span>
-<span id="cb7-5"><a href="results.html#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">mtry =</span> <span class="dv">3</span>, </span>
-<span id="cb7-6"><a href="results.html#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">min.node.size=</span><span class="dv">7</span>, </span>
-<span id="cb7-7"><a href="results.html#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="at">sample.fraction =</span><span class="fl">0.8</span>, </span>
-<span id="cb7-8"><a href="results.html#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="at">seed=</span><span class="dv">123</span>,</span>
-<span id="cb7-9"><a href="results.html#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="at">importance =</span> <span class="st">&quot;impurity&quot;</span></span>
-<span id="cb7-10"><a href="results.html#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="results.html#cb8-1" aria-hidden="true" tabindex="-1"></a>rfFit<span class="ot">=</span> <span class="fu">ranger</span>(</span>
+<span id="cb8-2"><a href="results.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">formula =</span> reg.mod, </span>
+<span id="cb8-3"><a href="results.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="at">data=</span>train_x, </span>
+<span id="cb8-4"><a href="results.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">num.trees =</span> <span class="dv">5000</span>, </span>
+<span id="cb8-5"><a href="results.html#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="at">mtry =</span> <span class="dv">3</span>, </span>
+<span id="cb8-6"><a href="results.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="at">min.node.size=</span><span class="dv">7</span>, </span>
+<span id="cb8-7"><a href="results.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="at">sample.fraction =</span><span class="fl">0.8</span>, </span>
+<span id="cb8-8"><a href="results.html#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="at">seed=</span><span class="dv">123</span>,</span>
+<span id="cb8-9"><a href="results.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="at">importance =</span> <span class="st">&quot;impurity&quot;</span></span>
+<span id="cb8-10"><a href="results.html#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>According to the model, the three most important variables are accommodates, room_type_Private_room, and beds in descending order. This is shown in the figure below:</p>
 <p><img src="Predicting_Aibnb_Prices_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
@@ -273,13 +273,13 @@ MAE
 </tbody>
 </table>
 <p>In contrast, the OLS model’s Rsquared was 0.53, suggesting that the model explains about 53% of the variation. The model specifications are shown below:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="results.html#cb8-1" aria-hidden="true" tabindex="-1"></a>reg.mod <span class="ot">=</span></span>
-<span id="cb8-2"><a href="results.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.formula</span>(log_price <span class="sc">~</span> accommodates <span class="sc">+</span> beds <span class="sc">+</span> bathrooms <span class="sc">+</span></span>
-<span id="cb8-3"><a href="results.html#cb8-3" aria-hidden="true" tabindex="-1"></a>               cleaning_fee <span class="sc">+</span> property_type_House <span class="sc">+</span></span>
-<span id="cb8-4"><a href="results.html#cb8-4" aria-hidden="true" tabindex="-1"></a>               property_type_Other <span class="sc">+</span> room_type_Private_room <span class="sc">+</span></span>
-<span id="cb8-5"><a href="results.html#cb8-5" aria-hidden="true" tabindex="-1"></a>               room_type_Shared_room)</span>
-<span id="cb8-6"><a href="results.html#cb8-6" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">lm</span>(reg.mod, <span class="at">data =</span> data_anal)</span>
-<span id="cb8-7"><a href="results.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="results.html#cb9-1" aria-hidden="true" tabindex="-1"></a>reg.mod <span class="ot">=</span></span>
+<span id="cb9-2"><a href="results.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.formula</span>(log_price <span class="sc">~</span> accommodates <span class="sc">+</span> beds <span class="sc">+</span> bathrooms <span class="sc">+</span></span>
+<span id="cb9-3"><a href="results.html#cb9-3" aria-hidden="true" tabindex="-1"></a>               cleaning_fee <span class="sc">+</span> property_type_House <span class="sc">+</span></span>
+<span id="cb9-4"><a href="results.html#cb9-4" aria-hidden="true" tabindex="-1"></a>               property_type_Other <span class="sc">+</span> room_type_Private_room <span class="sc">+</span></span>
+<span id="cb9-5"><a href="results.html#cb9-5" aria-hidden="true" tabindex="-1"></a>               room_type_Shared_room)</span>
+<span id="cb9-6"><a href="results.html#cb9-6" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">lm</span>(reg.mod, <span class="at">data =</span> data_anal)</span>
+<span id="cb9-7"><a href="results.html#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = reg.mod, data = data_anal)
