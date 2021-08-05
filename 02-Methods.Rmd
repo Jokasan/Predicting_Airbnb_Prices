@@ -119,7 +119,7 @@ p3 <- ggplot(test3, aes(property_type_Other))+
   geom_bar()+ xlab(" ")+theme_minimal()
 
 p4 <- ggplot(test4, aes(room_type_Private_room))+
-  geom_bar()+ xlab(" ")+theme_minimal()
+  geom_bar()+ xlab(" ")+ylab("")+theme_minimal()
 
 p5 <- ggplot(test5, aes(room_type_Shared_room))+ 
   geom_bar()+ ylab(" ") +xlab(" ")+theme_minimal()
