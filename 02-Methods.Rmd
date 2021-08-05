@@ -38,7 +38,8 @@ data_overview <- tribble(
   "room_type_Private_room", "numeric","This variable was transformed into a binary variable, 1 indicating that the property’s room type is private and 0 indicating it is not private.",
   "room_type_Share_room", "numeric","This variable was transformed into a binary variable, 1 indicating that the property’s room type is shared and 0 indicating it is not shared.",
 )
-kable(data_overview)
+kable(data_overview, "html") %>% 
+  kable_styling(full_width=F)
 ```
 
 The following data pre-processing was necessary to achieve the formatting of variables in the table above:
