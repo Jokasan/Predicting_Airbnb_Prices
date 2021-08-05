@@ -7,7 +7,7 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+description: "This is an assignment completed for the GEOG5917 Big Data and Consumer Analytics module, part of the MSc Consumer Analytics and Marketing Strategy, Jan 2021 - Jan 2022 cohort."
 ---
 
 
