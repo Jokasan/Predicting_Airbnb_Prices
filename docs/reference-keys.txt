@@ -1,3 +1,7 @@
+fig:unnamed-chunk-4
+fig:unnamed-chunk-6
+fig:unnamed-chunk-7
+fig:unnamed-chunk-13
 executive-summary
 intro
 business-problem-and-study-aim

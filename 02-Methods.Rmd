@@ -71,7 +71,7 @@ head(data_anal)
 Furthermore, the correlations between the predictor variables can be visualised. There seems to be a high correlation between the beds and accommodates (0.804) variables, suggesting a colinearity, however given that the scope of this study is predictive modeling, this shouldn't be an issue.
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.cap="Correlation matrix of variables"}
 # Construct the main ggplot with geom_tile
 cor.mat <- round(cor(data_anal[-1]),3)
 # pivot the correlation matrix to long format
@@ -108,7 +108,7 @@ test_x=data_anal[-training_index,]
 
 Distribution of Categorical variables:
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.cap="Distributions of categorical variables"}
 p1 <- ggplot(test, aes(cleaning_fee))+
      geom_bar()+xlab(" ")+ylab("")+theme_minimal()
 
@@ -128,7 +128,7 @@ grid.arrange(p1,p2,p3,p4,p5,nrow=3)
 
 Distribution of continuous variables:
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.cap="Distributions of contious variables"}
 ggplot(melted, aes(x=value))+
       geom_histogram(fill="firebrick3", bins = 20, col="white")+
    facet_wrap(~ variable, ncol=, scales="free")+theme_minimal()

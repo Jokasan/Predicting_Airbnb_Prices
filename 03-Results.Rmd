@@ -47,7 +47,7 @@ importance = "impurity"
 
 According to the model, the three most important variables are accommodates, room_type_Private_room, and beds in descending order. This is shown in the figure below:
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.cap="Variable importance"}
 varimp
 ```
 
